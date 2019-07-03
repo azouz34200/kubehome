@@ -1,0 +1,36 @@
+ssh_authorized_keys:
+- ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEArcpDASQ0/dW9gj7FldaNPJvrr7jW6ZhEROlS05+4wBljPjY33B0Mt9dFt88OZV2+B286odq6yTUtL9D1whOn7+6iOKT8aiILE28cSNepChGAf6YSdTfKeZFOewcQ4lyaB/AvbMlP7byGbp8NUqXy1JeFVwlsuANZxVi6ekFABUFFPwPDg983YIV3oJaHXleszQs9A5N0n26cDI9ESuxH+aD5cqTpolHNmLwRMTOZxvmkH/ZbQCARBuuMHd3sVf/CLietQTxT7iQwVXMOZnC5e4NPHbENvRoMVNQuGEvt5SvUYME6W2W5CeoeJm6iQa7aqA+5E6olS7oXIxKKBfEkqQ==
+hostname: master
+mounts:
+- - 192.168.0.23:/mnt/VM/rancher-file-nfs
+  - /mnt/
+  - nfs4
+  - ""
+rancher:
+  services:
+    k3s-agent:
+      command: agent --docker -s https://localhost:6443 --token-file /var/lib/rancher/k3s/server/node-token
+      image: rancher/k3s:v0.6.1
+      ipc: host
+      net: host
+      pid: host
+      privileged: true
+      volumes:
+      - /var/lib/rancher/k3s:/var/lib/rancher/k3s:rshared
+      - /var/lib/docker:/var/lib/docker:rshared
+      - /var/run:/var/run
+      - /run:/run
+    k3s-server:
+      command: server --disable-agent --no-deploy traefik
+      image: rancher/k3s:v0.6.1
+      net: host
+      volumes:
+        - /etc/rancher/k3s:/etc/rancher/k3s
+        - /var/lib/rancher/k3s:/var/lib/rancher/k3s:rshared
+  network:
+  interfaces:
+  eth*:
+  dhcp: true
+  dns:
+  nameservers:
+        - 8.8.8.8
