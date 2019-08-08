@@ -10,7 +10,7 @@ rancher:
   services:
     k3s-agent:
       command: agent --docker -s https://localhost:6443 --token-file /var/lib/rancher/k3s/server/node-token
-      image: rancher/k3s:v0.6.1
+      image: rancher/k3s:v0.8.0
       ipc: host
       net: host
       pid: host
@@ -21,8 +21,8 @@ rancher:
       - /var/run:/var/run
       - /run:/run
     k3s-server:
-      command: server --disable-agent --no-deploy traefik
-      image: rancher/k3s:v0.6.1
+      command: server --disable-agent --no-deploy traefik --kube-apiserver-arg="requestheader-allowed-names=system:auth-proxy,kubernetes-proxy"
+      image: rancher/k3s:v0.8.0
       net: host
       volumes:
         - /etc/rancher/k3s:/etc/rancher/k3s
