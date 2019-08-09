@@ -50,8 +50,8 @@ affinity: {}
 tolerations: []
 ssl:
   enabled: true
-  enforced: false
-  permanentRedirect: false
+  enforced: true
+  permanentRedirect: true
   upstream: false
   insecureSkipVerify: true
   generateTLS: false
