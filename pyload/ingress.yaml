@@ -1,0 +1,15 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: https-pyload
+  namespace: pyload
+  annotations:
+    kubernetes.io/ingress.class: traefik
+spec:
+  rules:
+  - host: "pyload.azema.net"
+    http:
+      paths:
+      - backend:
+          serviceName:  pyload-external-service
+          servicePort: 80

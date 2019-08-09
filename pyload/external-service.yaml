@@ -1,0 +1,12 @@
+kind: Service
+apiVersion: v1
+metadata:
+ name: pyload-external-service
+ namespace: pyload
+spec:
+ type: ExternalName
+ externalName: 192.168.0.151
+ ports:
+ - port: 80
+   targetPort: 80
+   protocol: TCP
