@@ -42,3 +42,17 @@ k label node master.lan kubernetes.io/role=router
 ```bash
 helm install stable/traefik --name traefik -f traefik-value.yaml --namespace traefik
 ```
+
+### Registry
+
+#### Generate user and password
+
+```bash
+docker run --entrypoint htpasswd registry:2 -Bbn mickael "password > ./httpasswd
+```
+
+#### Deploy
+
+```bash
+helm install --name registry stable/docker-registry -f docker-registry-value.yaml -n registr
+```
