@@ -1,0 +1,43 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: pyload-dpl
+  namespace: pyload
+  labels:
+    app: pyload
+spec:
+  selector:
+    matchLabels:
+      app: pyload
+  strategy:
+  template:
+    metadata:
+      labels:
+        app: pyload
+    spec:
+      containers:
+      - image: linuxserver/pyload:amd64-latest
+        name: pyload
+        env:
+        - name: PUID 
+          value: "1000"
+        - name: PGID 
+          value: "1002"
+        - name: TZ 
+          value: "Europe/Paris"
+        ports:
+        - containerPort: 8000
+          name: pyload
+        volumeMounts:
+        - name: data
+          mountPath: /downloads
+        - name: config
+          mountPath: /config
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          #claimName: pyload-data
+          claimName: data-nfs
+      - name: config
+        persistentVolumeClaim:
+          claimName: pyload-config

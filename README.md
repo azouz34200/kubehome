@@ -56,3 +56,15 @@ docker run --entrypoint htpasswd registry:2 -Bbn mickael "password > ./httpasswd
 ```bash
 helm install --name registry stable/docker-registry -f docker-registry-value.yaml -n registr
 ```
+
+#### Install
+
+```bash
+helm install stable/nfs-client-provisioner --name nfs-client --namespace nfs-client -f nfs-client-values.yaml
+```
+
+#### Ugrade
+
+```bash
+helm upgrade nfs-client stable/nfs-client-provisioner -f nfs-client-values.yaml  
+```bash
