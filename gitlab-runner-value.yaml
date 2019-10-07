@@ -44,8 +44,10 @@ runners:
   ## Default container image to use for builds when none is specified
   ##
   image: core.azema.net/my-images/centos7
-  imagePullSecrets: ["eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1Njc5NTYyMjksImlhdCI6MTU2NTM2NDIyOSwiaXNzIjoiaGFyYm9yLXRva2VuLWlzc3VlciIsImlkIjoyLCJwaWQiOjIsImFjY2VzcyI6W3siUmVzb3VyY2UiOiIvcHJvamVjdC8yL3JlcG9zaXRvcnkiLCJBY3Rpb24iOiJwdXNoIiwiRWZmZWN0IjoiIn0seyJSZXNvdXJjZSI6Ii9wcm9qZWN0L215LWltYWdlcy9yZXBvc2l0b3J5IiwiQWN0aW9uIjoicHVzaCIsIkVmZmVjdCI6IiJ9XX0.uf6VQ0P--W30gExn69zY46zhWWS4cgM-7R_zY9auW-TK0Grab90yEhLK_Go6aXg55jdir7d0m393LCNUQDQPryh37sfMOe_s1BPvf4UMxbOUZGN035Md_8Q30oTpMVn4xLBuQbR5aBD4HSczF4R7hVoAzsfusHQjpnxtq_GTSKkCv1I0wPqmIAuBbnT5n3KvNQ8mQ5eu8xovbbx3mkezFDUKLlb4cjpD9x6ZjPj3tfWb8iRDQOjQwpWTL2Xb0eILrIGZZ_H-wgbwxnotoUbAPi2A-euFdvI7-XrNUbKifcxcceoNE21mgxK2ba-_G70t-K3oMloK4EYqpkgAgJmnCvS1wvss8q9aGmxhH3uVhF15d6RkrMihPfsQBTwPUyxqBNX2iyJLd5HfNA4BWMi1e9f49nqI2KCEsOhOFficoeGTlg6YfhmVQZ4-WSzBfx8_KzR1uP5odImarhmNaJVZMZco2fUfoQ2LuIWdkPMsf8LU3aXYq-rUfuzmAV7dgczNW7oTPqU16kzPXX06r5KD2cPCBb0ep4CTjYzhd1DHDq9Qp2CWLsrcaqNZCvhEC0oALSbUhspd44JVmwptACg7iwbAn3UdErurjLcvCN5QN-FyLNiN7cF5vLF4I_HJ0mcEv1Tt4bFsYrfUw79OPk8gID56v2SR980dmW0R1tLlgio"]
-
+  imagePullSecrets:
+    [
+      "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1Njc5NTYyMjksImlhdCI6MTU2NTM2NDIyOSwiaXNzIjoiaGFyYm9yLXRva2VuLWlzc3VlciIsImlkIjoyLCJwaWQiOjIsImFjY2VzcyI6W3siUmVzb3VyY2UiOiIvcHJvamVjdC8yL3JlcG9zaXRvcnkiLCJBY3Rpb24iOiJwdXNoIiwiRWZmZWN0IjoiIn0seyJSZXNvdXJjZSI6Ii9wcm9qZWN0L215LWltYWdlcy9yZXBvc2l0b3J5IiwiQWN0aW9uIjoicHVzaCIsIkVmZmVjdCI6IiJ9XX0.uf6VQ0P--W30gExn69zY46zhWWS4cgM-7R_zY9auW-TK0Grab90yEhLK_Go6aXg55jdir7d0m393LCNUQDQPryh37sfMOe_s1BPvf4UMxbOUZGN035Md_8Q30oTpMVn4xLBuQbR5aBD4HSczF4R7hVoAzsfusHQjpnxtq_GTSKkCv1I0wPqmIAuBbnT5n3KvNQ8mQ5eu8xovbbx3mkezFDUKLlb4cjpD9x6ZjPj3tfWb8iRDQOjQwpWTL2Xb0eILrIGZZ_H-wgbwxnotoUbAPi2A-euFdvI7-XrNUbKifcxcceoNE21mgxK2ba-_G70t-K3oMloK4EYqpkgAgJmnCvS1wvss8q9aGmxhH3uVhF15d6RkrMihPfsQBTwPUyxqBNX2iyJLd5HfNA4BWMi1e9f49nqI2KCEsOhOFficoeGTlg6YfhmVQZ4-WSzBfx8_KzR1uP5odImarhmNaJVZMZco2fUfoQ2LuIWdkPMsf8LU3aXYq-rUfuzmAV7dgczNW7oTPqU16kzPXX06r5KD2cPCBb0ep4CTjYzhd1DHDq9Qp2CWLsrcaqNZCvhEC0oALSbUhspd44JVmwptACg7iwbAn3UdErurjLcvCN5QN-FyLNiN7cF5vLF4I_HJ0mcEv1Tt4bFsYrfUw79OPk8gID56v2SR980dmW0R1tLlgio",
+    ]
 
   ## Run all containers with the privileged flag enabled
   ## This will allow the docker:stable-dind image to run if you need to run Docker
@@ -53,6 +55,14 @@ runners:
   ## ref: https://docs.gitlab.com/runner/executors/kubernetes.html#using-docker-dind
   ##
   privileged: true
+  cache:
+    cacheType: s3
+    cacheShared: true
+    s3ServerAddress: minio.minio:9000
+    s3BucketName: gitlab-runner
+    s3BucketLocation:
+    s3CacheInsecure: true
+    secretName: s3access
 
   ## Namespace to run Kubernetes jobs in (defaults to 'default')
   ##
